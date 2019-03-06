@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Stack Exchange Elections</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@stackoverflow/stacks/dist/css/stacks.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://charcoal-se.org/assets/css/branding.css" />
+    <link rel="stylesheet" type="text/css" href="elections.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="elections.js"></script>
+</head>
+<body>
+    <div id="app">
+        <a class="home" href="https://charcoal-se.org/"><img src="https://charcoal-se.org/assets/images/charcoal.png" height="32" /><span>by Charcoal</span></a>
+
+        <h1 class="page-title">Stack Exchange Moderator Elections</h1>
+        <p class="lead">
+            This page shows you information about currently running
+            <a href="https://stackoverflow.blog/2010/12/02/stack-exchange-moderator-elections-begin/" class="s-link s-link__underlined">moderator elections</a>
+            on Stack Exchange sites. Statistics are loaded from the API dynamically by your browser &mdash; please be patient.
+        </p>
+        <div class="election-select">
+            <h2>Choose your site</h2>
+            <p v-if="!loaded.elections"><em>Loading elections...</em></p>
+
+            <div class="election-sites">
+                <div v-for="site in elections" v-on:click="selectSite(site)" v-bind:data-active="activeElectionSite === site"
+                     class="election s-card mb16">
+                    <img v-bind:src="site.icon_url" height="48" width="48" />
+                    {{ site.name }}
+                </div>
+            </div>
+        </div>
+        <div v-if="!!activeElection" class="active-election">
+            <p v-if="!activeElection.activeElection"><em>No active election on {{ activeElectionSite.name }}.</em></p>
+            <div v-if="activeElection.activeElection">
+                <h2 class="election-title">
+                    <img v-bind:src="activeElectionSite.icon_url" height="48" width="48" />
+                    <a v-bind:href="electionURL" class="s-link">{{ activeElection.name }}</a>
+                    <span class="fc-light pl6">({{ activeElection.phase }})</span>
+                </h2>
+                <div class="election-meta">
+                    <div v-for="metaPair in activeElection.meta">
+                        <p class="fc-light mb4">{{ metaPair[0] }}</p>
+                        {{ metaPair[1] }}
+                    </div>
+                    <div>
+                        <p class="mb4"><a v-bind:href="activeElection.chat" class="s-link">chat</a></p>
+                        <a v-bind:href="activeElection.questions" class="s-link">questionnaire</a>
+                    </div>
+                </div>
+                <h3>{{ activeElection.nominations.length }} {{ activeElection.nominations.length === 1 ? 'candidate' : 'candidates' }}</h3>
+                <div v-for="nomination in activeElection.nominations" class="nomination clearfix">
+                    <div class="s-tabs" role="tablist">
+                        <button class="s-tabs--item" v-bind:aria-controls="`nomination-panel-${nomination.user.id}`" aria-selected="true">Nomination</button>
+                        <button class="s-tabs--item" v-bind:aria-controls="`statistics-panel-${nomination.user.id}`">Statistics</button>
+                    </div>
+                    <div v-bind:id="`nomination-panel-${nomination.user.id}`" v-html="nomination.nomination" role="tabpanel" class="d-block"></div>
+                    <div v-bind:id="`statistics-panel-${nomination.user.id}`" role="tabpanel" class="d-none">
+                        <!--
+                         - engagement: main post count
+                         - meta engagement: meta post count
+                         - moderation: total edits, flags (helpful?)
+                         - votes: total votes, % up/down?
+                         - badges: badge counts
+                         - network: network rep, % this site?
+                        -->
+                        <!--
+                        <div class="user-stats">
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">badges</span>
+                                <div class="s-badge s-badge__gold"><span class="badge1"></span> 617</div>
+                                <div class="s-badge s-badge__silver"><span class="badge2"></span>927</div>
+                                <div class="s-badge s-badge__bronze"><span class="badge3"></span>1927</div>
+                            </div>
+                        </div>
+                        -->
+                        <p v-if="!loaded.users"><em>Loading statistics...</em></p>
+                        <div v-if="loaded.users" class="user-stats">
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">engagement</span>
+                                <span class="emt">{{ nomination.user.stats.posts }}</span> posts since {{ nomination.user.stats.joinedYear }}
+                            </div>
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">meta engagement</span>
+                                <span class="emt">{{ nomination.user.stats.metaPosts }}</span> meta posts since {{ nomination.user.stats.joinedYear }}
+                            </div>
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">moderation</span>
+                                <span class="emt">{{ nomination.user.stats.edits }}</span> posts edited<br/>
+                                <span class="emt">{{ nomination.user.stats.flags }}</span> helpful flags
+                            </div>
+
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">votes</span>
+                                <span class="emt">{{ nomination.user.stats.votes.total }}</span> total votes<br/>
+                                <span class="emt">{{ nomination.user.stats.votes.up }}</span> up,
+                                <span class="emt">{{ nomination.user.stats.votes.down }}</span> down
+                            </div>
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">badges</span>
+                                <div class="s-badge s-badge__gold"><span class="badge1"></span> {{ nomination.user.stats.badges.gold }}</div>
+                                <div class="s-badge s-badge__silver"><span class="badge2"></span> {{ nomination.user.stats.badges.silver }}</div>
+                                <div class="s-badge s-badge__bronze"><span class="badge3"></span> {{ nomination.user.stats.badges.bronze }}</div>
+                            </div>
+                            <div class="s-card mb16">
+                                <span class="module-title fc-light">network</span>
+                                accounts on <span class="emt">{{ nomination.user.stats.accounts }}</span> sites
+                            </div>
+                        </div>
+                    </div>
+                    <div class="usercard float-right">
+                        <div class="user-details">
+                            <div class="s-avatar s-avatar__md">
+                                <img v-bind:src="nomination.user.avatar" />
+                            </div>
+                            <a v-bind:href="nomination.user.url" class="s-link pl6">{{ nomination.user.name }}</a>
+                        </div>
+                        <div class="candidate-score" v-html="nomination.score"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="mt20 fc-light fs-fine ta-center">
+            Made by <a href="https://stackexchange.com/users/3457374" class="s-link s-link__underlined s-link__inherit">ArtOfCode</a>.
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  background: #EEE;
+  font-family: "Arial", "Helvetica Neue", "Helvetica", sans-serif;
+  font-size: 14px;
+  color: #444; }
+
+#app {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 1em; }
+
+h1 {
+  font-size: 3em;
+  font-weight: bold;
+  margin: 0 0 1em 0; }
+  h1.page-title {
+    text-align: center; }
+
+h2 {
+  font-size: 1.75em;
+  font-weight: bold;
+  margin: 0 0 0.5em 0; }
+  h2.election-title {
+    display: flex;
+    align-items: flex-end; }
+
+h3 {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 1.5em 0 0.5em 0; }
+
+.election-sites {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1em; }
+  .election-sites .election {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease; }
+    .election-sites .election:hover {
+      background: #EEE; }
+    .election-sites .election[data-active="true"] {
+      background: #EEE; }
+
+.election-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between; }
+
+div[role="tabpanel"] {
+  padding: 1em; }
+
+.nomination h1 {
+  font-size: 2em;
+  margin: 0.5em 0; }
+
+.usercard {
+  margin: 1em;
+  background: #EEE;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+  max-width: 400px;
+  min-width: 200px; }
+  .usercard .user-details {
+    display: flex;
+    align-items: center;
+    padding-right: 0.5em; }
+  .usercard .candidate-score {
+    padding-left: 0.5em; }
+    .usercard .candidate-score span {
+      font-weight: bold; }
+    .usercard .candidate-score ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0.5em 0; }
+
+.user-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 1em; }
+  .user-stats .module-title {
+    font-variant: small-caps;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5em; }
+  .user-stats .emt {
+    font-size: 16px;
+    font-weight: bold; }
+
+.badge1, .badge2, .badge3 {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  background-image: url("https://cdn.sstatic.net/Img/unified/sprites.svg?v=e5e58ae7df45");
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin-right: 5px;
+  margin-left: 2px;
+  width: 6px;
+  height: 14px; }
+
+.badge1 {
+  background-position: -102px -398px; }
+
+.badge2 {
+  background-position: -82px -398px; }
+
+.badge3 {
+  background-position: -62px -398px; }
+
+/*# sourceMappingURL=elections.css.map */
