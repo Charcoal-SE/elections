@@ -29,7 +29,7 @@
                 <div v-for="site in elections" v-on:click="selectSite(site)" v-bind:data-active="activeElectionSite === site"
                      class="election s-card mb16">
                     <img v-bind:src="site.icon_url" height="48" width="48" />
-                    {{ site.name }}
+                    <span v-html="site.name"></span>
                 </div>
             </div>
         </div>
