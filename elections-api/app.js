@@ -114,7 +114,7 @@ const scrapeElectionData = async siteParam => {
   const meta = $('.module', page).first().find('p').toArray().map(p => $(p).text().trim());
   data.meta = inGroups(meta, 2);
 
-  const nominationCells = $('.candidate-row').toArray();
+  const nominationCells = $('.candidate-row', page).toArray();
   data.nominations = nominationCells.map(c => {
     const userLink = `https://${domain}` + $(c).find('.user-details a').attr('href');
     const splat = userLink.split('/');
