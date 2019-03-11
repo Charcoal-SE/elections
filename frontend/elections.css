@@ -41,9 +41,10 @@ h3 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.2s ease; }
-    .election-sites .election:hover {
+    .election-sites .election:not(.scheduled) {
+      cursor: pointer; }
+    .election-sites .election:not(.scheduled):hover {
       background: #EEE; }
     .election-sites .election[data-active="true"] {
       background: #EEE; }

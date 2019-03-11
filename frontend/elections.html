@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="elections.css" />
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="strftime.js"></script>
     <script src="elections.js"></script>
 </head>
 <body>
@@ -30,6 +31,18 @@
                      class="election s-card mb16">
                     <img v-bind:src="site.icon_url" height="48" width="48" />
                     <span v-html="site.name"></span>
+                </div>
+            </div>
+        </div>
+        <div v-if="!activeElection" class="election-select">
+            <h2>Upcoming Elections</h2>
+            <p v-if="!loaded.elections"><em>Loading elections...</em></p>
+
+            <div class="election-sites">
+                <div v-for="site in scheduled" class="scheduled election s-card mb16">
+                    <img v-bind:src="site.icon_url" height="48" width="48" />
+                    <span v-html="site.name" class="d-block mb4"></span>
+                    <span class="fc-light">{{ site.start.strftime('%a %e %b %Y at %H:%M') }}</span>
                 </div>
             </div>
         </div>

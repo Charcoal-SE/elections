@@ -4,6 +4,16 @@ const timeout = ms => {
   });
 };
 
+const filterObj = function (o, f) {
+  const results = {};
+  Object.keys(o).forEach(k => {
+    if (f.call(o, k, o[k])) {
+      results[k] = o[k];
+    }
+  });
+  return results;
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
   window.vm = new Vue({
     el: '#app',
@@ -19,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       activeElectionSite: null,
       activeElection: null,
       elections: [],
+      scheduled: [],
       sites: []
     },
     methods: {
@@ -35,7 +46,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('load: elections');
         const response = await fetch(`${vm.electionAPIBase}/api/elections`);
         const data = await response.json();
-        vm.elections = vm.sites.filter(x => data.indexOf(x.api_site_parameter) > -1);
+        const active = filterObj(data, (site, meta) => Date.parse(meta.start) <= Date.now());
+        const scheduled = filterObj(data, (site, meta) => Date.parse(meta.start) > Date.now());
+        vm.elections = vm.sites.filter(x => Object.keys(active).indexOf(x.api_site_parameter) > -1);
+        vm.scheduled = vm.sites.filter(x => Object.keys(scheduled).indexOf(x.api_site_parameter) > -1)
+                               .map(s => Object.assign(s, { start: new Date(Date.parse(scheduled[s.api_site_parameter].start)) }));
         vm.loaded.elections = true;
         console.log('load: elections done');
       },

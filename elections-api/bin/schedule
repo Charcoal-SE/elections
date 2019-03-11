@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+const rd = require('redis');
+const cla = require('command-line-args');
+
+const optionDefs = [
+  { name: 'delete', alias: 'D', type: Boolean },
+  { name: 'site', alias: 's', type: String, defaultOption: true },
+  { name: 'start-date', alias: 'd', type: String }
+];
+
+const options = cla(optionDefs);
+
+const client = rd.createClient();
+const redis = {
+  get: key => {
+    return new Promise((resolve, reject) => {
+      client.get(key, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(data);
+        }
+      });
+    });
+  },
+
+  set: (key, val, expire = null) => {
+    return new Promise((resolve, reject) => {
+      const params = [key, val];
+      if (!!expire) params.push('EX', expire);
+      client.set(...params, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(data);
+        }
+      });
+    });
+  }
+};
+
+if (!options.site || (!options['start-date'] && !options.delete)) {
+  console.error('Both site and start-date parameters are required. Usage: npm run schedule [-D|--delete] -d <startDate> <siteName>');
+  process.exit(1);
+}
+
+(async () => {
+  const existingData = JSON.parse(await redis.get('elections')) || {};
+  let newData;
+
+  if (options.delete) {
+    newData = existingData;
+    delete newData[options.site];
+  }
+  else {
+    newData = existingData;
+    newData[options.site] = {
+      start: new Date(Date.parse(options['start-date']))
+    };
+  }
+
+  await redis.set('elections', JSON.stringify(newData));
+
+  console.log(JSON.parse(await redis.get('elections')));
+  process.exit(0);
+})();
