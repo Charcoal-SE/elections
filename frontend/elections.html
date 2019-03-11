@@ -34,7 +34,7 @@
             </div>
         </div>
         <div v-if="!!activeElection" class="active-election">
-            <p v-if="!activeElection.activeElection"><em>No active election on {{ activeElectionSite.name }}.</em></p>
+            <p v-if="!activeElection.activeElection"><em>No active election on <span v-html="activeElectionSite.name"></span>.</em></p>
             <div v-if="activeElection.activeElection">
                 <h2 class="election-title">
                     <img v-bind:src="activeElectionSite.icon_url" height="48" width="48" />
