@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     data: {
       apiKey: 'lKfzuApO1ASY*NegoDzU0g((',
       electionAPIBase: 'http://localhost:3000',
+      location,
       loaded: {
         sites: false,
         elections: false,
@@ -76,7 +77,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   await vm.loadSites();
-  vm.loadElections();
+  await vm.loadElections();
+
+  const siteParams = vm.sites.map(x => x.api_site_parameter);
+  const hash = location.hash.substr(1);
+  if (!!location.hash && siteParams.indexOf(hash) > -1) {
+    vm.selectSite(vm.sites.filter(x => x.api_site_parameter === hash)[0]);
+  }
 
   $(document).on('click', '.s-tabs--item', ev => {
     const tabpanel = $('#' + $(ev.target).attr('aria-controls'));

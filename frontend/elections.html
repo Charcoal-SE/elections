@@ -46,11 +46,12 @@
                         <p class="fc-light mb4">{{ metaPair[0] }}</p>
                         {{ metaPair[1] }}
                     </div>
-                    <div>
-                        <p class="mb4"><a v-bind:href="activeElection.chat" class="s-link">chat</a></p>
-                        <a v-bind:href="activeElection.questions" class="s-link">questionnaire</a>
-                    </div>
                 </div>
+                <p class="mt12">
+                    <a v-bind:href="location.href + '#' + activeElectionSite.api_site_parameter" class="s-link">permalink</a> &middot;
+                    <a v-bind:href="activeElection.chat" class="s-link">chat</a> &middot;
+                    <a v-bind:href="activeElection.questions" class="s-link">questionnaire</a>
+                </p>
                 <h3>{{ activeElection.nominations.length }} {{ activeElection.nominations.length === 1 ? 'candidate' : 'candidates' }}</h3>
                 <div v-for="nomination in activeElection.nominations" class="nomination clearfix">
                     <div class="s-tabs" role="tablist">
@@ -59,24 +60,6 @@
                     </div>
                     <div v-bind:id="`nomination-panel-${nomination.user.id}`" v-html="nomination.nomination" role="tabpanel" class="d-block"></div>
                     <div v-bind:id="`statistics-panel-${nomination.user.id}`" role="tabpanel" class="d-none">
-                        <!--
-                         - engagement: main post count
-                         - meta engagement: meta post count
-                         - moderation: total edits, flags (helpful?)
-                         - votes: total votes, % up/down?
-                         - badges: badge counts
-                         - network: network rep, % this site?
-                        -->
-                        <!--
-                        <div class="user-stats">
-                            <div class="s-card mb16">
-                                <span class="module-title fc-light">badges</span>
-                                <div class="s-badge s-badge__gold"><span class="badge1"></span> 617</div>
-                                <div class="s-badge s-badge__silver"><span class="badge2"></span>927</div>
-                                <div class="s-badge s-badge__bronze"><span class="badge3"></span>1927</div>
-                            </div>
-                        </div>
-                        -->
                         <p v-if="!loaded.users"><em>Loading statistics...</em></p>
                         <div v-if="loaded.users" class="user-stats">
                             <div class="s-card mb16">
