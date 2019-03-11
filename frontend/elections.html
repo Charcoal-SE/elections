@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <p class="mt12">
-                    <a v-bind:href="location.href + '#' + activeElectionSite.api_site_parameter" class="s-link">permalink</a> &middot;
+                    <a v-bind:href="location.href.replace(location.hash, '') + '#' + activeElectionSite.api_site_parameter" class="s-link">permalink</a> &middot;
                     <a v-bind:href="activeElection.chat" class="s-link">chat</a> &middot;
                     <a v-bind:href="activeElection.questions" class="s-link">questionnaire</a>
                 </p>
