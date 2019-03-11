@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="!activeElection" class="election-select">
+        <div v-if="!activeElection && scheduled.length > 0" class="election-select">
             <h2>Upcoming Elections</h2>
             <p v-if="!loaded.elections"><em>Loading elections...</em></p>
 
