@@ -6,7 +6,8 @@ const cla = require('command-line-args');
 const optionDefs = [
   { name: 'delete', alias: 'D', type: Boolean },
   { name: 'site', alias: 's', type: String, defaultOption: true },
-  { name: 'start-date', alias: 'd', type: String }
+  { name: 'start-date', alias: 'd', type: String },
+  { name: 'link', alias: 'l', type: String, multiple: true }
 ];
 
 const options = cla(optionDefs);
@@ -57,9 +58,14 @@ if (!options.site || (!options['start-date'] && !options.delete)) {
   }
   else {
     newData = existingData;
-    newData[options.site] = {
+    let site = {
       start: new Date(Date.parse(options['start-date']))
     };
+    const links = options.link.map(x => x.split('::'));
+    if (links.length > 0) {
+      site.links = links;
+    }
+    newData[options.site] = site;
   }
 
   await redis.set('elections', JSON.stringify(newData));

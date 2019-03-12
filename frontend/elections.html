@@ -42,12 +42,21 @@
                 <div v-for="site in scheduled" class="scheduled election s-card mb16">
                     <img v-bind:src="site.icon_url" height="48" width="48" />
                     <span v-html="site.name" class="d-block mb4"></span>
-                    <span class="fc-light">{{ site.start.strftime('%a %e %b %Y at %H:%M') }}</span>
+                    <span class="fc-light">{{ new Date(Date.parse(site.start)).strftime('%a %e %b %Y at %H:%M') }}</span>
                 </div>
             </div>
         </div>
         <div v-if="!!activeElection" class="active-election">
-            <p v-if="!activeElection.activeElection"><em>No active election on <span v-html="activeElectionSite.name"></span>.</em></p>
+            <div v-if="!activeElection.activeElection">
+                <p><em>No active election on <span v-html="activeElectionSite.name"></span>.</em></p>
+                <h2>Previous Elections on <span v-html="activeElectionSite.name"></span></h2>
+                <p>{{ activeElection.previous.length }} previous {{ activeElection.previous.length === 1 ? 'election' : 'elections' }}</p>
+                <div v-for="previousElection in activeElection.previous">
+                    <h3>{{ previousElection.name }}</h3>
+                    <a v-for="winner in previousElection.winners" v-bind:href="winner[0]"><img v-bind:src="winner[1]" /></a>
+                </div>
+            </div>
+
             <div v-if="activeElection.activeElection">
                 <h2 class="election-title">
                     <img v-bind:src="activeElectionSite.icon_url" height="48" width="48" />
@@ -64,6 +73,9 @@
                     <a v-bind:href="location.href.replace(location.hash, '') + '#' + activeElectionSite.api_site_parameter" class="s-link">permalink</a> &middot;
                     <a v-bind:href="activeElection.chat" class="s-link">chat</a> &middot;
                     <a v-bind:href="activeElection.questions" class="s-link">questionnaire</a>
+                    <span v-if="!!activeElectionSite.links">
+                        &middot; <a v-for="link in activeElectionSite.links" v-bind:href="link[1]" class="s-link">{{ link[0] }}</a>
+                    </span>
                 </p>
                 <h3>{{ activeElection.nominations.length }} {{ activeElection.nominations.length === 1 ? 'candidate' : 'candidates' }}</h3>
                 <div v-for="nomination in activeElection.nominations" class="nomination clearfix">

@@ -48,9 +48,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
         const active = filterObj(data, (site, meta) => Date.parse(meta.start) <= Date.now());
         const scheduled = filterObj(data, (site, meta) => Date.parse(meta.start) > Date.now());
-        vm.elections = vm.sites.filter(x => Object.keys(active).indexOf(x.api_site_parameter) > -1);
+        vm.elections = vm.sites.filter(x => Object.keys(active).indexOf(x.api_site_parameter) > -1)
+                               .map(s => Object.assign(s, active[s.api_site_parameter]));
         vm.scheduled = vm.sites.filter(x => Object.keys(scheduled).indexOf(x.api_site_parameter) > -1)
-                               .map(s => Object.assign(s, { start: new Date(Date.parse(scheduled[s.api_site_parameter].start)) }));
+                               .map(s => Object.assign(s, scheduled[s.api_site_parameter]));
         vm.loaded.elections = true;
         console.log('load: elections done');
       },

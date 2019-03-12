@@ -99,6 +99,18 @@ const scrapeElectionData = async siteParam => {
     // No active election
     data.activeElection = false;
 
+    const electionRows = $('.elections tr', page).toArray().slice(1);
+    data.previous = electionRows.map(e => {
+      const rt = {};
+      rt.name = $('td', e).first().text().trim();
+      rt.winners = $('td', e).last().find('a').toArray().map(u => {
+        const userLink = $(u).attr('href');
+        const userId = userLink.match(/(\d+)/)[1];
+        return [`https://${domain}/users/${userId}`, `https://${domain}/users/flair/${userId}.png`];
+      });
+      return rt;
+    });
+
     redis.set(`elections-site-${siteParam}`, JSON.stringify(data), 10);
     return data;
   }
@@ -146,7 +158,6 @@ const scrapeUserData = async (siteParam, userId) => {
   responses = await Promise.all(responses);
 
   let [profileData, apiData, apiMetaData] = responses;
-  console.log(apiData);
   apiData = JSON.parse(apiData).items[0];
   apiMetaData = JSON.parse(apiMetaData).items[0];
 
