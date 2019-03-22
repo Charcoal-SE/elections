@@ -61,7 +61,7 @@ if (!options.site || (!options['start-date'] && !options.delete)) {
     let site = {
       start: new Date(Date.parse(options['start-date']))
     };
-    const links = options.link.map(x => x.split('::'));
+    const links = !!options.link ? options.link.map(x => x.split('::')) : [];
     if (links.length > 0) {
       site.links = links;
     }
