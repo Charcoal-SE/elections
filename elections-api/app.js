@@ -65,6 +65,10 @@ const inGroups = (ary, groupSize) => {
 const getSiteUrl = siteParam => {
   const specialCases = {
     'stackoverflow': 'stackoverflow.com',
+    'pt.stackoverflow': 'pt.stackoverflow.com',
+    'ru.stackoverflow': 'ru.stackoverflow.com',
+    'ja.stackoverflow': 'ja.stackoverflow.com',
+    'es.stackoverflow': 'es.stackoverflow.com',
     'mathoverflow': 'mathoverflow.net',
     'askubuntu': 'askubuntu.com',
     'superuser': 'superuser.com',
@@ -76,6 +80,10 @@ const getSiteUrl = siteParam => {
 const getMetaSiteParam = siteParam => {
   const specialCases = {
     'stackoverflow': 'meta.stackoverflow',
+    'pt.stackoverflow': 'pt.meta.stackoverflow',
+    'ru.stackoverflow': 'ru.meta.stackoverflow',
+    'ja.stackoverflow': 'ja.meta.stackoverflow',
+    'es.stackoverflow': 'es.meta.stackoverflow',
     'mathoverflow': 'meta.mathoverflow.net',
     'askubuntu': 'meta.askubuntu',
     'superuser': 'meta.superuser',
