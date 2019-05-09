@@ -170,7 +170,7 @@ const scrapeUserData = async (siteParam, userId) => {
   apiMetaData = JSON.parse(apiMetaData).items[0];
 
   data.posts = apiData.question_count + apiData.answer_count;
-  data.metaPosts = apiMetaData.question_count + apiMetaData.answer_count;
+  data.metaPosts = !!apiMetaData ? apiMetaData.question_count + apiMetaData.answer_count : 'N/A';
   data.joinedYear = new Date(apiData.creation_date * 1000).getFullYear();
 
   const stats = $('#top-cards aside', profileData).eq(2).children().first().children('.grid--cell').last().children().children().toArray();
