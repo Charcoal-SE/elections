@@ -7,8 +7,8 @@
     "schedule": "node ./bin/schedule"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
-    "command-line-args": "^5.0.2",
+    "cheerio": "^1.0.0-rc.3",
+    "command-line-args": "^5.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
