@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     vm.selectSite(vm.sites.filter(x => x.api_site_parameter === hash)[0]);
   }
 
-  $(document).on('click', '.s-tabs--item', ev => {
+  $(document).on('click', '.s-navigation--item', ev => {
     const tabpanel = $('#' + $(ev.target).attr('aria-controls'));
     $(ev.target).parent().children().attr('aria-selected', false);
     $(ev.target).attr('aria-selected', true);

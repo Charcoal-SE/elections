@@ -79,9 +79,9 @@
                 </p>
                 <h3>{{ activeElection.nominations.length }} {{ activeElection.nominations.length === 1 ? 'candidate' : 'candidates' }}</h3>
                 <div v-for="nomination in activeElection.nominations" class="nomination clearfix">
-                    <div class="s-tabs" role="tablist">
-                        <button class="s-tabs--item" v-bind:aria-controls="`nomination-panel-${nomination.user.id}`" aria-selected="true">Nomination</button>
-                        <button class="s-tabs--item" v-bind:aria-controls="`statistics-panel-${nomination.user.id}`">Statistics</button>
+                    <div class="s-navigation" role="tablist">
+                        <a class="s-navigation--item" v-bind:aria-controls="`nomination-panel-${nomination.user.id}`" aria-selected="true">Nomination</button>
+                        <a class="s-navigation--item" v-bind:aria-controls="`statistics-panel-${nomination.user.id}`">Statistics</button>
                     </div>
                     <div v-bind:id="`nomination-panel-${nomination.user.id}`" v-html="nomination.nomination" role="tabpanel" class="d-block"></div>
                     <div v-bind:id="`statistics-panel-${nomination.user.id}`" role="tabpanel" class="d-none">
