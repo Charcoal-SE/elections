@@ -103,8 +103,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   $(document).on('click', '.s-navigation--item', ev => {
     const tabpanel = $('#' + $(ev.target).attr('aria-controls'));
-    $(ev.target).parents('.s-navigation').children().removeClass('is-selected');
-    $(ev.target).parent().children().addClass('is-selected');
+    $(ev.target).parents('.s-navigation').find('.is-selected').removeClass('is-selected');
+    $(ev.target).addClass('is-selected');
     tabpanel.parent().children('[role="tabpanel"]').removeClass('d-block').addClass('d-none');
     tabpanel.removeClass('d-none').addClass('d-block');
   });
