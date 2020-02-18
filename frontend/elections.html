@@ -80,7 +80,7 @@
                 <h3>{{ activeElection.nominations.length }} {{ activeElection.nominations.length === 1 ? 'candidate' : 'candidates' }}</h3>
                 <div v-for="nomination in activeElection.nominations" class="nomination clearfix">
                     <div class="s-navigation" role="tablist">
-                        <a class="s-navigation--item" v-bind:aria-controls="`nomination-panel-${nomination.user.id}`" aria-selected="true">Nomination</a>
+                        <a class="s-navigation--item is-selected" v-bind:aria-controls="`nomination-panel-${nomination.user.id}`" aria-selected="true">Nomination</a>
                         <a class="s-navigation--item" v-bind:aria-controls="`statistics-panel-${nomination.user.id}`">Statistics</a>
                     </div>
                     <div v-bind:id="`nomination-panel-${nomination.user.id}`" v-html="nomination.nomination" role="tabpanel" class="d-block"></div>
